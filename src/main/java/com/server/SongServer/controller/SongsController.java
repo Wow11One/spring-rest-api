@@ -1,9 +1,8 @@
-package com.server.SongServer.controllers;
+package com.server.SongServer.controller;
 
-import com.server.SongServer.models.Song;
+import com.server.SongServer.model.Song;
 import com.server.SongServer.service.SongService;
 import jakarta.validation.Valid;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 

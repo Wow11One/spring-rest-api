@@ -1,4 +1,4 @@
-package com.server.SongServer.models;
+package com.server.SongServer.model;
 
 
 import jakarta.validation.constraints.Min;

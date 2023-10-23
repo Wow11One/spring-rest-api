@@ -1,7 +1,7 @@
 package com.server.SongServer.service;
 
 import com.server.SongServer.dao.SongDAO;
-import com.server.SongServer.models.Song;
+import com.server.SongServer.model.Song;
 import org.springframework.stereotype.Component;
 
 import java.util.List;

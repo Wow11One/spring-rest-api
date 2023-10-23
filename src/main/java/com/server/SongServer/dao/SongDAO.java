@@ -2,7 +2,7 @@ package com.server.SongServer.dao;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.server.SongServer.models.Song;
+import com.server.SongServer.model.Song;
 import jakarta.annotation.PostConstruct;
 import jakarta.annotation.PreDestroy;
 import org.springframework.beans.factory.annotation.Value;
