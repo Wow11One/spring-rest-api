@@ -1,19 +1,15 @@
 package com.server.SongServer.dao;
 
-import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.server.SongServer.models.Song;
 import jakarta.annotation.PostConstruct;
 import jakarta.annotation.PreDestroy;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Repository;
 
-import java.io.Writer;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.io.FileWriter;
+import java.io.File;
 import java.io.IOException;
-import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -22,31 +18,30 @@ public class SongDAO {
 
     //database emulation with json file and array list collection
     private List<Song> songs;
-    private Gson gson;
+    private ObjectMapper objectMapper;
 
     @Value("${songs.json.filename}")
     private String songsFileName;
 
-    public SongDAO(Gson gson) {
-        this.gson = gson;
+    public SongDAO(ObjectMapper objectMapper) {
         songs = new ArrayList<>();
+        this.objectMapper = objectMapper;
     }
 
     @PostConstruct
     public void init() {
-        Type type = new TypeToken<List<Song>>() {
-        }.getType();
         try {
-            songs = gson.fromJson(new FileReader(songsFileName), type);
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
+            songs = objectMapper.readValue(new File(songsFileName), new TypeReference<ArrayList<Song>>() {
+            });
+        } catch (IOException e) {
+            throw new RuntimeException(e);
         }
     }
 
     @PreDestroy
     public void destroy() {
-        try (Writer writer = new FileWriter(songsFileName)) {
-            gson.toJson(songs, writer);
+        try {
+            objectMapper.writeValue(new File(songsFileName), songs);
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -61,7 +56,10 @@ public class SongDAO {
     }
 
     public Song getSongById(int id) {
-        return songs.stream().filter(e -> e.getId() == id).findAny().orElse(null);
+        return songs.stream()
+                .filter(e -> e.getId() == id)
+                .findAny()
+                .orElse(null);
     }
 
     public List<Song> getSongByGenre(String genre) {
@@ -69,7 +67,9 @@ public class SongDAO {
     }
 
     public void delete(int id) {
-        songs = songs.stream().filter(e -> e.getId() != id).toList();
+        songs = songs.stream()
+                .filter(e -> e.getId() != id)
+                .toList();
     }
 
     public void update(Song song) {

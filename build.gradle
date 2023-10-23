@@ -17,8 +17,10 @@ repositories {
 }
 
 dependencies {
-    implementation group: 'com.google.code.gson', name: 'gson', version: '2.7'
+    implementation group: 'org.springframework.boot', name: 'spring-boot-starter-validation', version: '3.1.5'
+    implementation group: 'org.hibernate', name: 'hibernate-validator', version: '8.0.1.Final'
     implementation group: 'org.springframework', name: 'spring-web', version: '6.0.13'
+    implementation 'org.jetbrains:annotations:20.1.0'
     compileOnly 'javax.servlet:javax.servlet-api:4.0.1'
     implementation 'javax.servlet:jstl:1.2'
     implementation 'org.springframework:spring-webmvc:6.0.9'
